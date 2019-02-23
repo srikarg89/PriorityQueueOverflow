@@ -7,29 +7,21 @@ function setup() {
   console.log(button);
   button.elt.setAttribute("id", "nose_button");
   button.position(0, 0);
-  button.mousePressed(function changeNoseCone() {noseConeShow = !noseConeShow});
-  // put setup code here
-}
-
-function changeNoseCone(){
-  noseConeShow = !noseConeShow;
-  if(noseConeShow)
-    button.elt.setAttribute("name","Hide nose cone");
-  else
-    button.elt.setAttribute("name","Show nose cone");
+  button.mousePressed(changeNoseCone);
 }
 
 function draw() {
   background(100);
-  // put drawing code here
-  //gridToDisplay(-200);
   displayRocket();
 }
 
-function changeNoseCone() {
-
+function changeNoseCone(){
   noseConeShow = !noseConeShow;
-
+  console.log('hi');
+  if(noseConeShow)
+    button.elt.innerHTML = "Hide nose cone";
+  else
+    button.elt.innerHTML = "Show nose cone";
 }
 
 displayRocket = function(){
