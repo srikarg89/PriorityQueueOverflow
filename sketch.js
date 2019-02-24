@@ -1,8 +1,12 @@
 let size = 30;
 let button;
 let noseConeShow = true;
+var nose;
+//let ellipsoid;
 function setup() {
   createCanvas(900,600,WEBGL);
+//  ellipsoid = loadModel('Ellipsoid.obj');
+  nose = new NoseCone(40,70,2);
   button = createButton('Hide nose cone');
   console.log(button);
   button.elt.setAttribute("id", "nose_button");
@@ -40,8 +44,7 @@ displayRocket = function(){
   translate(0,-100);
   rotateX(PI);
   fill(255,0,0);
-  if(noseConeShow)
-    cone(40,70);
+  nose.draw(noseConeShow);
   translate(0,-110);
   fill(0,0,255);
   cylinder(40,150);
@@ -65,80 +68,4 @@ gridToDisplay = function(startI){
     }
 //      pop();
   }
-}
-
-
-drawIt = function(side, num, x, y){
-  push();
-  noStroke();
-  switch(num){
-  case 0:
-    fill(0,0,255);
-    break;
-  case 1:
-    fill(255,0,0);
-    break;
-  case 2:
-    fill(0,255,0);
-    break;
-  case 3:
-    fill(255,165,0);
-    break;
-  case 4:
-    fill(255,255,0);
-    break;
-  case 5:
-    fill(255,255,255);
-    break;
-  }
-  let rotateMouse = map(mouseX,0,width,-3/2*PI,3/2*PI);
-  let rotateMouse1 = map(mouseY,0,height,-3/2*PI,3/2*PI);
-  rotateMouse1 *= -1;
-  rectMode(CENTER);
-  switch(side){
-    case 0:
-    rotateY(rotateMouse);
-    rotateX(rotateMouse1);
-    translate(0,0,1.5*size);
-    rect(x,y,size,size);
-    break;
-    case 1:
-    rotateY(rotateMouse);
-    rotateX(rotateMouse1);
-    translate(size*3.5,0,size*2);
-    rotateY(PI/2);
-    rect(x,y,size,size);
-    break;
-    case 2:
-    rotateY(rotateMouse);
-    rotateX(rotateMouse1);
-    translate(size*4,0,-3*size/2);
-    rotateY(PI);
-    rect(x,y,size,size);
-    break;
-    case 3:
-    rotateY(rotateMouse);
-    rotateX(rotateMouse1);
-    translate(size/2,0,-size*2);
-    rotateY(-PI/2);
-    rect(x,y,size,size);
-    break;
-    case 4:
-    rotateY(rotateMouse);
-    rotateX(rotateMouse1);
-    translate(0,-size/2,-size);
-    rotateX(PI/2);
-    rect(x,y,size,size);
-    break;
-    case 5:
-    rotateY(rotateMouse);
-    rotateX(rotateMouse1);
-    translate(0,size*2.5,size);
-    rotateX(-PI/2);
-    rect(x,y,size,size);
-    break;
-  }
-//    rotateX(angle);
-//    rect(x,y,10,10);
-  pop();
 }
