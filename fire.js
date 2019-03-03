@@ -7,8 +7,8 @@ function setup() {
   button.size(100,50);
   button.mousePressed(launch);
 
-  createCanvas(720, 400);
-  system = new ParticleSystem(createVector(width / 2, 300));
+  createCanvas(720, 400, WEBGL);
+  system = new ParticleSystem(createVector(width / 2, 300,1));
 }
 function launch(){
   background(51);
@@ -25,8 +25,8 @@ function draw() {
 
 // A simple Particle class
 let Particle = function(position) {
-  this.acceleration = createVector(0, 0.05);
-  this.velocity = createVector(random(-1, 1), random(-1, 0));
+  this.acceleration = createVector(0, 0.05, 0);
+  this.velocity = createVector(random(-1, 1), random(-1, 0),0);
   this.position = position.copy();
   this.lifespan = 255;
 };
@@ -48,7 +48,10 @@ Particle.prototype.display = function() {
   stroke(200, this.lifespan);
   strokeWeight(2);
   fill(255,0,0);
-  ellipse(this.position.x, this.position.y, 12, 12);
+  push();
+  translate(this.position.x, this.position.y);
+  sphere(12);
+  pop();
 };
 
 // Is the particle still useful?

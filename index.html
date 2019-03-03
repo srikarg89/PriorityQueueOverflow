@@ -1,17 +1,76 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>p5.js example</title>
-    <style> body {padding: 0; margin: 0;} </style>
-    <script src="p5/p5.min.js"></script>
-    <script src="p5/addons/p5.dom.min.js"></script>
-    <script src="p5/addons/p5.sound.min.js"></script>
-    <script src="noseCone.js"></script>
-    <script src="bodyTube.js"></script>
-    <script src="sketch.js"></script>
-  </head>
-  <body>
-  </body>
+<html>
+    <head>
+        <title>TakeOffTime</title>
+        <link rel="stylesheet" href="styles.css">
+        <script>
+          function mouseover(x)
+          {
+            document.getElementById("headerbuttons" + x).style.opacity = 0.6;
+            document.getElementById("headerbuttons" + x).style.border = "1px solid white";
+          }
+          function mouseout(y)
+          {
+            document.getElementById("headerbuttons" + y).style.opacity = 1.0;
+            document.getElementById("headerbuttons" + y).style.border = "1px solid black";
+          }
+        </script>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <!-- <div class="centre"> -->
+                <ul>
+                    <!-- <li><a href="#title">Home</a></li>
+                    <li><a href = "#tryitout">Try It Out!</a></li>
+                    <li><a href="#aboutproject">About the Application</a></li>
+                    <li><a href="#aboutus">Contact the Devs</a></li> -->
+                    <button id="headerbuttons0" onmouseover = "mouseover(0)" onmouseout = "mouseout(0)" style = "opacity: 1.0; transition: 0.3s; cursor: pointer;font-family: robotoLight;color:white;background-color:MidnightBlue;border:none;text-align:center;font-size:20px;padding:15px 32px;border:1px solid black;"><a href="#title">Home</a></button>
+                    <button id="headerbuttons1" onmouseover = "mouseover(1)" onmouseout = "mouseout(1)" style = "opacity: 1.0;font-family: robotoLight;background-color:MidnightBlue;border:none;color:white;text-align:center;font-size:20px;padding:15px 32px;border:1px solid black"><a href = "#tryitout">Try It Out!</a></button>
+                    <button id="headerbuttons2" onmouseover = "mouseover(2)" onmouseout = "mouseout(2)" style = "opacity: 1.0;font-family: robotoLight;background-color:MidnightBlue;border:none;color:white;text-align:center;font-size:20px;padding:15px 32px;border:1px solid black"><a href="#aboutproject">About the Application</a></button>
+                    <button id="headerbuttons3" onmouseover = "mouseover(3)" onmouseout = "mouseout(3)" style = "opacity: 1.0;font-family: robotoLight;background-color:MidnightBlue;border:none;color:white;text-align:center;font-size:20px;padding:15px 32px;border:1px solid black"><a href="#aboutus">About the Creators</a></button>
+                </ul>                <!-- </div> -->
+            </nav>
+        </header>
+        <main>
+            <section id="title">
+                <div class="section-inner">
+                    <h1 style = "color:white;font-family: robotoMedium;">This is TakeoffTime.</h1>
+                    <h3 style = "color:white;font-family: robotoLight;">Made by Srikar Gouru, Ganesh Nanduru, Saigautam Bonam, Aryan Chinnala</h3>
+                </div>
+            </section>
+            <section id="tryitout">
+                <div class="section-inner">
+                    <h1 style = "font-family: robotoMedium;color:white;font-size:60px;">Try it out!<h1>
+                    <h3 style = "font-family: robotoLight;color:white;">Press the button to open the application!</h3>
+                <!--    <button type = "button" style = "background-color:MidnightBlue;border:none;color:white;text-align:center;font-size:20px;padding:15px 32px;border:10px solid black">TakeOffTime(JavaScript)</button> -->
+                    <a href = "designStuff.html"><button id="headerbuttons4" onmouseover = "mouseover(4)" onmouseout = "mouseout(4)" style = "opacity: 1.0;font-family: robotoLight;color:white;background-color:MidnightBlue;border:none;text-align:center;font-size:20px;padding:15px 32px;border:10px solid black;">Press to start the application!</button></a>
+                </div>
+            </section>
+            <section id="aboutproject">
+                <div class="section-inner">
+                    <h2 style = "font-family: robotoMedium;color:white;">About TakeOffTime</h2>
+                    <p  style = "font-family: robotoLight;color:white; font-size:35px;">TakeOffTime is a JavaScript rocket launch simulator that has an interactive GUI, incorporates 3D models, and can be used for model rockets.</p>
+                    <h3 style = "font-family: robotoLight;color:white; font-size:30px">Main Attributes</h3>
+                    <!-- <ul style = "color:black;font-family: robotoLight; font-size:35px;">
+                        <li>Contains a GUI that was made in three.js</li>
+                        <li>Calculates apogee, max velocity, average velocity, acceleration, thrust, drag, and much more</li>
+                        <li>Graphics that were made in p5.js</li>
+                    </ul> -->
+                    <p style = "color:white;text-align:center;font-family: robotoLight; font-size:35px">Contains a GUI that was made in three.js</p>
+                    <p style = "color:white;text-align:center;font-family: robotoLight; font-size:35px">Calculates apogee, max velocity, average velocity, acceleration, thrust, drag, and much more</p>
+                    <p style = "color:white;text-align:center;font-family: robotoLight; font-size:35px">Graphics that were made in p5.js</p>
+                </div>
+            </section>
+            <section id="aboutus">
+                <div class="section-inner">
+                    <h2 style = "font-family: robotoMedium;color:white;">About Us:</h2>
+                    <p style = "font-family: robotoLight; color:white; font-size: 30px;">We are a team of programmers from Thomas Jefferson High School of Science and Technology who love to code in many languages. We all have a good interest in space science and rocketry, which along with our skill sets, helped us get inspired to make this project.</p>
+                </div>
+            </section>
+        </main>
+        <footer style = "background-color:black;color:white;font-family:robotoMedium;font-size:35px;">
+            ©Copyright TakeOffTime, 2019
+        </footer>
+    </body>
 </html>
