@@ -6,9 +6,10 @@ class Motor{
     this.dropdown.option('F39-9', 1);
     this.dropdown.option('C6-9', 2);
     this.dropdown.changed(function(e){ motor_type = this.value(); });
-    motor_type = 1;
+    motor_type = 0;
     this.toDraw = true;
     this.font = loadFont('assets/Avenir.otf');
+    this.SPECS = [[39,1.33,50],[6,1.9,14]]
   }
 
   activate(){
@@ -61,7 +62,7 @@ class Motor{
 
     let length = 50;
     let radius = -1;
-    if(motor_type == 1){
+    if(motor_type == 0){
       radius = 25;
     }
     else{

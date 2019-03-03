@@ -1,12 +1,12 @@
 var nose_type, nose_height, nose_radius;
 class NoseCone{
 
-  constructor(radius = 40, height = 70, typ = 3){
-    this.ELLIPSOID_RADIUS_SCALE = 1;
-    this.ELLIPSOID_HEIGHT_SCALE = 4/7;
+  constructor(radius = 3, height = 10, typ = 2){
+    this.ELLIPSOID_RADIUS_SCALE = 80/3;
+    this.ELLIPSOID_HEIGHT_SCALE = 4;
     this.ELLIPSOID_MODEL = loadModel('assets/Ellipsoid.obj');
-    this.OGIVE_RADIUS_SCALE = .8/40;
-    this.OGIVE_HEIGHT_SCALE = .5/70;
+    this.OGIVE_RADIUS_SCALE = .8/3;
+    this.OGIVE_HEIGHT_SCALE = .5/7;
     this.OGIVE_MODEL = loadModel('assets/Ogive.obj');
 
     nose_radius = radius;
@@ -19,9 +19,9 @@ class NoseCone{
     this.dropdown.option('Ogive', 3);
     this.dropdown.changed(function(e){ nose_type = this.value(); });
     this.inpH = createInput('');
-    this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 15 && this.value() <= 200){nose_height = this.value();}} });
+    this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 3 && this.value() <= 40){nose_height = this.value();}} });
     this.inpR = createInput('');
-    this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){nose_radius = this.value(); body_radius = this.value();}} });
+    this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 2 && this.value() < 8){nose_radius = this.value(); body_radius = this.value();}} });
     this.font = loadFont('assets/Avenir.otf');
 
   }
@@ -34,9 +34,9 @@ class NoseCone{
       this.dropdown.option('Ogive', 3);
       this.dropdown.changed(function(e){ nose_type = this.value(); });
       this.inpH = createInput('');
-      this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 15 && this.value() <= 200){nose_height = this.value();}} });
+      this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 3 && this.value() <= 40){nose_height = this.value();}} });
       this.inpR = createInput('');
-      this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){nose_radius = this.value(); body_radius = this.value();}} });
+      this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 2 && this.value() < 8){nose_radius = this.value(); body_radius = this.value();}} });
       this.makeGUI();
       this.isActive = true;
     }
@@ -79,6 +79,8 @@ class NoseCone{
 
     text('Height: ', -windowWidth/2 + 170, -windowHeight/2 + 88, 200, 100);
     text('Radius: ', -windowWidth/2 + 170, -windowHeight/2 + 190, 200, 100);
+    text('cm', -windowWidth/2 + 320, -windowHeight/2 + 88, 80, 50);
+    text('cm', -windowWidth/2 + 310, -windowHeight/2 + 190, 80, 50);
 
     textSize(20);
     text('Nose Cone Variables and Parameters',-windowWidth/2 + 90,-windowHeight/2 + 30, 500,100);
@@ -87,13 +89,15 @@ class NoseCone{
   draw(){
     if(!this.toDraw)
       return;
-    if(nose_type == 1){
+    push();
+    translate(0,160);
+    if(nose_type == 0){
       push();
       translate(0,(nose_height-70)/2);
       cone(nose_radius,nose_height);
       pop();
     }
-    else if(nose_type == 2){
+    else if(nose_type == 1){
       push();
       translate(0,-35);
       scale(this.ELLIPSOID_RADIUS_SCALE*nose_radius,this.ELLIPSOID_HEIGHT_SCALE*nose_height,this.ELLIPSOID_RADIUS_SCALE*nose_radius);
@@ -112,7 +116,7 @@ class NoseCone{
       model(this.OGIVE_MODEL);
       pop();
     }
-
+    pop();
 
   }
 

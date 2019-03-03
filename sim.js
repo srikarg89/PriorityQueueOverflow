@@ -12,6 +12,13 @@ var alti, fallv, tim;
 let s = 0;
 let cond = false;
 let system;
+
+function setup2(){
+  createCanvas(900,600,WEBGL);
+  displayRocket(false);
+  background(100);
+}
+
 function setup() {
   createCanvas(900,600,WEBGL);
 
@@ -30,7 +37,7 @@ function setup() {
 
 function draw() {
   background(100);
-  displayRocket();
+  displayRocket(true);
   textFont(font);
   fill(255,255,255);
   textSize(20);
@@ -66,7 +73,7 @@ function launch(){
 }
 
 
-displayRocket = function(){
+displayRocket = function(bool){
   let rotateMouse = map(mouseX,0,width,-2*PI,2*PI);
   let rotateMouse1 = map(mouseY,0,height,-2*PI,2*PI);
 

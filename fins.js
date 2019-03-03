@@ -1,21 +1,21 @@
 var fin_type, base, thickness, height;
 class Fin{
 
-  constructor(bas = 30, typ = 1){
-    this.TRAP_BASE_SCALE = 1;
-    this.TRAP_HEIGHT_SCALE = 1;
+  constructor(bas = 7, typ = 1){
+    this.TRAP_BASE_SCALE = 4;
+    this.TRAP_HEIGHT_SCALE = 4;
     this.TRAP_THICKNESS_SCALE = 12;
     this.TRAP_MODEL = loadModel('assets/RightTrap.obj');
-    this.ISORIGHT_BASE_SCALE = 5;
+    this.ISORIGHT_BASE_SCALE = 25;
     this.ISORIGHT_THICKNESS_SCALE = 12;
     this.ISORIGHT_MODEL = loadModel('assets/454590.obj');
-    this.NONISORIGHT_BASE_SCALE = 1;
+    this.NONISORIGHT_BASE_SCALE = 4;
     this.NONISORIGHT_THICKNESS_SCALE = 12;
     this.NONISORIGHT_MODEL = loadModel('assets/306090.obj');
 
     base = bas;
     thickness = 5;
-    height = 20;
+    height = 5;
     fin_type = typ;
     this.toDraw = true;
     this.dropdown = createSelect(); // or create dropdown?
@@ -91,9 +91,12 @@ class Fin{
     textSize(15);
 
     text('Base: ', -windowWidth/2 + 220, -windowHeight/2 + 89, 200, 100);
-    if(fin_type == 1)
+    text('cm', -windowWidth/2 + 350, -windowHeight/2 + 88, 80, 50);
+    if(fin_type == 1){
       text('Height: ', -windowWidth/2 + 210, -windowHeight/2 + 160, 200, 100);
+      text('cm', -windowWidth/2 + 350, -windowHeight/2 + 159, 80, 50);
 
+    }
     textSize(20);
     text('Fin Variables and Parameters',-windowWidth/2 + 90,-windowHeight/2 + 30, 500,100);
   }
