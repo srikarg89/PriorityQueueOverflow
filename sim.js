@@ -6,11 +6,15 @@ var font;
 var noseConeData;
 //let ellipsoid;
 var triangle_model;
+
+let cond = false;
+let system;
 function setup() {
   createCanvas(900,600,WEBGL);
+  system = new ParticleSystem(createVector(width / 2, 50));
 //  ellipsoid = loadModel('Ellipsoid.obj');
   nose = new NoseCone(40,70,2);
-  noseConeData = new NoseConeData();
+  //noseConeData = new NoseConeData();
   button = createButton('Begin Launch!');
   button.position(400,50);
   button.size(100,50);
@@ -31,11 +35,57 @@ function draw() {
   text('Altitude: ',-440,-240,20,20);
   text('Velocity: ',-440,-195,20,20);
   text('Thrust: ',-440,-150,20,20);
+
+  if(cond){
+    system.addParticle();
+    system.run();
+  }
 }
 
 function launch(){
   button.remove();
+  cond = true;
 }
+let Particle = function(position) {
+  this.acceleration = createVector(0, 0.05);
+  this.velocity = createVector(random(-1, 1), random(-1, 0));
+  this.position = position.copy();
+  this.lifespan = 255;
+};
+Particle.prototype.run = function() {
+  this.update();
+  this.display();
+};
+Particle.prototype.update = function(){
+  this.velocity.add(this.acceleration);
+  this.position.add(this.velocity);
+  this.lifespan -= 2;
+};
+Particle.prototype.display = function() {
+  stroke(200, this.lifespan);
+  strokeWeight(2);
+  fill(255,0,0);
+  ellipse(this.position.x, this.position.y, 12, 12);
+};
+Particle.prototype.isDead = function(){
+  return this.lifespan < 0;
+};
+let ParticleSystem = function(position) {
+  this.origin = position.copy();
+  this.particles = [];
+};
+ParticleSystem.prototype.addParticle = function() {
+  this.particles.push(new Particle(this.origin));
+};
+ParticleSystem.prototype.run = function() {
+  for (let i = this.particles.length-1; i >= 0; i--) {
+    let p = this.particles[i];
+    p.run();
+    if (p.isDead()) {
+      this.particles.splice(i, 1);
+    }
+  }
+};
 
 displayRocket = function(){
   let rotateMouse = map(mouseX,0,width,-2*PI,2*PI);
