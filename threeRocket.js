@@ -123,4 +123,21 @@ var animate = function () {
 	renderer.render(scene, camera);
 };
 
+mousewheel = function (event) {
+                var factor = 15;
+                var mX = (event.clientX / jQuery(container).width()) * 2 - 1;
+                var mY = -(event.clientY / jQuery(container).height()) * 2 + 1;
+                var vector = new THREE.Vector3(mX, mY, 0.1);
+
+                vector.unproject(camera);
+                vector.sub(camera.position);
+                if (event.deltaY < 0) {
+                    camera.position.addVectors(camera.position, vector.setLength(factor));
+                    trackBallControls.target.addVectors(trackBallControls.target, vector.setLength(factor));
+                } else {
+                    camera.position.subVectors(camera.position, vector.setLength(factor));
+                    trackBallControls.target.subVectors(trackBallControls.target, vector.setLength(factor));
+                }
+    };
+
 animate();
