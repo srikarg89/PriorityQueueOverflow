@@ -3,12 +3,14 @@ let button;
 let noseConeShow = true;
 var nose;
 var font;
+var noseConeData;
 //let ellipsoid;
 var triangle_model;
 function setup() {
   createCanvas(900,600,WEBGL);
 //  ellipsoid = loadModel('Ellipsoid.obj');
   nose = new NoseCone(40,70,2);
+  noseConeData = new NoseConeData();
   button = createButton('Begin Launch!');
   button.position(400,50);
   button.size(100,50);
@@ -74,23 +76,4 @@ displayRocket = function(){
   model(triangle_model);
   pop();
 
-}
-
-gridToDisplay = function(startI){
-  let grid = [[0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1],[2,2,2,2,2,2,2,2,2],[3,3,3,3,3,3,3,3,3],[4,4,4,4,4,4,4,4,4],[5,5,5,5,5,5,5,5,5]]
-  for (var i = 0; i < grid.length; i++) {
-//      push();
-    rectMode(CENTER);
-    for (var j = 0; j < grid[i].length; j++) {
-        let num = grid[i][j];
-        let j1 = j%3 + 1;
-        let j2 = int(j/3);
-        let x = j1*size;
-        let y = j2*size;
-//          rect(x,y,5,5);
-//          console.log(x,y,j,j1);
-        drawIt(i,num,x,y);
-    }
-//      pop();
-  }
 }

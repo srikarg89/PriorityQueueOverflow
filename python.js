@@ -22,3 +22,5 @@ function fall_v(mass, d){
 
     return Math.pow(((8*mass*9.80665)/(pi*r*cd*(d**2))),0.5)
 }
+
+console.log(altitude(0.053, .0127, 6, 1.25, 0.75));
