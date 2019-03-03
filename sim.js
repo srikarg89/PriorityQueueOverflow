@@ -7,11 +7,14 @@ var noseConeData;
 //let ellipsoid;
 var triangle_model;
 
+var mass, a, thrus, t, cd, d, t_high;
+var alti, fallv, tim;
+let s = 0;
 let cond = false;
 let system;
 function setup() {
   createCanvas(900,600,WEBGL);
-  system = new ParticleSystem(createVector(width / 2, 50));
+
 //  ellipsoid = loadModel('Ellipsoid.obj');
   nose = new NoseCone(40,70,2);
   //noseConeData = new NoseConeData();
@@ -37,8 +40,23 @@ function draw() {
   text('Thrust: ',-440,-150,20,20);
 
   if(cond){
-    system.addParticle();
-    system.run();
+    text(s, -400,285,20,20);
+    if(s<=t){
+      text(s * alti/tim, -400,-240,20,20);
+      text(Math.random()*5 + alti/tim, -400,-195,20,20);
+      text(cur_thrust(s),-400,-150,20,20);
+    }
+    else if(s<=tim){
+      text(s * alti/tim, -400,-240,20,20);
+      text(Math.random()*5 + alti/tim, -400,-195,20,20);
+      text("0",-400,-150,20,20)
+    }
+    else{
+      text(alti-s*fall_v, -400,-195,20,20);
+      text(-1*fall_v, -400,-240,20,20);
+      text("0",-400,-150,20,20);
+    }
+    s+=0.1;
   }
 }
 
@@ -46,46 +64,7 @@ function launch(){
   button.remove();
   cond = true;
 }
-let Particle = function(position) {
-  this.acceleration = createVector(0, 0.05);
-  this.velocity = createVector(random(-1, 1), random(-1, 0));
-  this.position = position.copy();
-  this.lifespan = 255;
-};
-Particle.prototype.run = function() {
-  this.update();
-  this.display();
-};
-Particle.prototype.update = function(){
-  this.velocity.add(this.acceleration);
-  this.position.add(this.velocity);
-  this.lifespan -= 2;
-};
-Particle.prototype.display = function() {
-  stroke(200, this.lifespan);
-  strokeWeight(2);
-  fill(255,0,0);
-  ellipse(this.position.x, this.position.y, 12, 12);
-};
-Particle.prototype.isDead = function(){
-  return this.lifespan < 0;
-};
-let ParticleSystem = function(position) {
-  this.origin = position.copy();
-  this.particles = [];
-};
-ParticleSystem.prototype.addParticle = function() {
-  this.particles.push(new Particle(this.origin));
-};
-ParticleSystem.prototype.run = function() {
-  for (let i = this.particles.length-1; i >= 0; i--) {
-    let p = this.particles[i];
-    p.run();
-    if (p.isDead()) {
-      this.particles.splice(i, 1);
-    }
-  }
-};
+
 
 displayRocket = function(){
   let rotateMouse = map(mouseX,0,width,-2*PI,2*PI);
@@ -126,4 +105,32 @@ displayRocket = function(){
   model(triangle_model);
   pop();
 
+}
+function cur_thrust(s){
+  low = Math.max(0,2*thrus-t_high);
+  return s * (t_high-low)/tim + low
+}
+function altitude(mass, a, thrust, t, cd){
+  k = 0.5*1.2*cd*a;
+  g = 9.80665;
+  mg = g * mass;
+  q = Math.pow(((thrust-mg)/k),.5);
+  x = 2*k*q/mass;
+  v = q*(1-Math.pow(Math.E,(-x*t))/(1+Math.E**(-x*t)));
+  b = ((-1*mass)/(2*k))*Math.log((thrust - mass*g - k*(v**2)) / (thrust - mass*g));
+  c = (mass / (2*k))*Math.log((mass*g + k*Math.pow(v,2)) / (mass*g));
+
+  p = -1.223;
+  burnvel = 213.4473 * (1-Math.E**(p*t))/(1+Math.E**(p*t));
+  qa = Math.pow(((mass * g)/k),0.5);
+  qb = Math.pow(((g * k)/mass),0.5);
+
+  return [Math.atan(burnvel/qa)/qb, b+c];
+}
+function fall_v(mass, d){
+    cd = 1.3;
+    r = 1.229;
+    pi = Math.PI;
+
+    return Math.pow(((8*mass*9.80665)/(pi*r*cd*(d**2))),0.5);
 }

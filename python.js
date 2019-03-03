@@ -6,7 +6,7 @@ function altitude(mass, a, thrust, t, cd){
   x = 2*k*q/mass
   v = q*(1-Math.pow(Math.E,(-x*t))/(1+Math.E**(-x*t)))
   b = ((-1*mass)/(2*k))*Math.log((thrust - mass*g - k*(v**2)) / (thrust - mass*g))
-  c = (mass / (2*k))*Math.log((mass*g + k*v**2) / (mass*g))
+  c = (mass / (2*k))*Math.log((mass*g + k*Math.pow(v,2)) / (mass*g))
 
   p = -1.223
   burnvel = 213.4473 * (1-Math.E**(p*t))/(1+Math.E**(p*t))
