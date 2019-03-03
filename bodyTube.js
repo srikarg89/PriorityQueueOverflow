@@ -1,15 +1,32 @@
 var body_height, body_radius;
 class BodyTube{
 
-  constructor(radius = 40, height = 70){
+  constructor(radius = 40, height = 250){
     body_radius = radius;
     body_height = height;
+    this.RADIUS_SCALE = 1;
+    this.HEIGHT_SCALE = 1;
     this.toDraw = true;
     this.inpH = createInput('');
-    this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 15 && this.value() <= 200){nose_height = this.value();}} });
+    this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 40 && this.value() <= 400){body_height = this.value();}} });
     this.inpR = createInput('');
-    this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){nose_radius = this.value();}} });
+    this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){body_radius = this.value(); nose_radius = this.value();}} });
     this.font = loadFont('assets/Avenir.otf');
+  }
+
+  activate(){
+    this.inpH = createInput('');
+    this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 40 && this.value() <= 400){body_height = this.value();}} });
+    this.inpR = createInput('');
+    this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){body_radius = this.value();} nose_radius = this.value();} });
+    this.makeGUI();
+    this.isActive = true;
+  }
+
+  deactivate(){
+    this.inpH.remove();
+    this.inpR.remove();
+    this.isActive = false;
   }
 
   setRadius(radius){
@@ -17,7 +34,7 @@ class BodyTube{
   }
 
   setHeight(height){
-    body_hegight = height;
+    body_height = height;
   }
 
   getRadius(){
@@ -49,9 +66,9 @@ class BodyTube{
     if(!this.toDraw)
       return;
     push();
-    translate(0,-160);
     fill(0,0,255);
-    cylinder(40,250);
+    translate(0,-(body_height-250));
+    cylinder(body_radius * this.RADIUS_SCALE, body_height * this.HEIGHT_SCALE);
     pop();
 
   }

@@ -21,10 +21,32 @@ class NoseCone{
     this.inpH = createInput('');
     this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 15 && this.value() <= 200){nose_height = this.value();}} });
     this.inpR = createInput('');
-    this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){nose_radius = this.value();}} });
+    this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){nose_radius = this.value(); body_radius = this.value();}} });
     this.font = loadFont('assets/Avenir.otf');
 
   }
+
+  activate(){
+    this.dropdown = createSelect(); // or create dropdown?
+    this.dropdown.option('Conical', 1);
+    this.dropdown.option('Elliptical', 2);
+    this.dropdown.option('Ogive', 3);
+    this.dropdown.changed(function(e){ nose_type = this.value(); });
+    this.inpH = createInput('');
+    this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 15 && this.value() <= 200){nose_height = this.value();}} });
+    this.inpR = createInput('');
+    this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){nose_radius = this.value(); body_radius = this.value();}} });
+    this.makeGUI();
+    this.isActive = true;
+  }
+
+  deactivate(){
+    this.inpH.remove();
+    this.inpR.remove();
+    this.dropdown.remove();
+    this.isActive = false;
+  }
+
 
   setRadius(radius){
     nose_radius = radius;

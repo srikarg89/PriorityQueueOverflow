@@ -9,7 +9,7 @@ var triangle_model;
 function setup() {
   createCanvas(1280,600,WEBGL);
   nose = new NoseCone(40,70,2);
-  body = new BodyTube(40,200);
+  body = new BodyTube(40,250);
 
   //Nose cone button
   button = createButton('Nose Cone');
@@ -55,7 +55,6 @@ function setup() {
 function draw() {
   background(100);
   displayRocket();
-//  nose.draw(true);
   if(nose.isActive){
     nose.makeGUI();
   }
@@ -65,13 +64,13 @@ function draw() {
 }
 
 function nose_cone(){
-  nose.isActive = true;
-  body.isActive = false;
+  nose.activate();
+  body.deactivate();
 }
 
 function body_tube(){
-  body.isActive = true;
-  nose.isActive = false;
+  body.activate();
+  nose.deactivate();
 }
 
 function fins(){
@@ -103,6 +102,7 @@ displayRocket = function(){
   rotateX(PI);
   fill(255,0,0);
   nose.draw();
+  translate(0,-160);
   body.draw();
   push();
   translate(0,-120,0);
