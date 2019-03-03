@@ -4,12 +4,14 @@ let button_1;
 let noseConeShow = true;
 var nose;
 var body;
+var fin;
 var font;
 var triangle_model;
 function setup() {
   createCanvas(1280,600,WEBGL);
-  nose = new NoseCone(40,70,2);
+  nose = new NoseCone(40,70,3);
   body = new BodyTube(40,250);
+  fin = new Fin(20,2);
 
   //Nose cone button
   button = createButton('Nose Cone');
@@ -88,7 +90,7 @@ function parachute(){
 
 displayRocket = function(){
   let rotateMouse = map(mouseX,0,width,-2*PI,2*PI);
-  let rotateMouse1 = map(mouseY,0,height,-2*PI,2*PI);
+  let rotateMouse1 = map(mouseY,0,height,-2*PI/20,2*PI/20);
 
   //Point being rotated at: 0, -180
   //Starting point: 0,20
@@ -112,19 +114,9 @@ displayRocket = function(){
   fill(255,0,255);
   translate(0,-125);
   rotateZ(PI/2);
-  push();
-  rotateX(PI/3);
-  scale(30,60,30);
-  model(triangle_model);
-  pop();
-  push();
-  rotateX(-PI/3);
-  scale(30,60,30);
-  model(triangle_model);
-  pop();
-  rotateX(PI);
-  scale(30,60,30);
-  model(triangle_model);
+  fin.draw(PI/3);
+  fin.draw(-PI/3);
+  fin.draw(PI);
   pop();
   fill(200,200,200);
   rect(-windowWidth/2,-windowHeight/2 - 20,windowWidth*2/5 - 12,windowHeight+20);

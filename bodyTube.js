@@ -15,12 +15,14 @@ class BodyTube{
   }
 
   activate(){
-    this.inpH = createInput('');
-    this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 40 && this.value() <= 400){body_height = this.value();}} });
-    this.inpR = createInput('');
-    this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){body_radius = this.value();} nose_radius = this.value();} });
-    this.makeGUI();
-    this.isActive = true;
+    if(!this.isActive){
+      this.inpH = createInput('');
+      this.inpH.input(function(e){ if(!isNaN(this.value())){if(this.value() > 40 && this.value() <= 400){body_height = this.value();}} });
+      this.inpR = createInput('');
+      this.inpR.input(function(e){ if(!isNaN(this.value())){if(this.value() > 5 && this.value() < 120){body_radius = this.value();} nose_radius = this.value();} });
+      this.makeGUI();
+      this.isActive = true;
+    }
   }
 
   deactivate(){
