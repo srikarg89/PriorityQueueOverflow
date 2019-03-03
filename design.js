@@ -6,12 +6,14 @@ var nose;
 var body;
 var fin;
 var font;
+var motor;
 var triangle_model;
 function setup() {
   createCanvas(1280,600,WEBGL);
   nose = new NoseCone(40,70,3);
   body = new BodyTube(40,250);
-  fin = new Fin(20,2);
+  fin = new Fin(20,1);
+  motor = new Motor();
 
   //Nose cone button
   button = createButton('Nose Cone');
@@ -39,15 +41,7 @@ function setup() {
   button.position(300,0);
   button.size(100,30);
   button.elt.setAttribute("id", "motor");
-  button.mousePressed(motor);
-
-  //Parachute
-  button = createButton('Parachute');
-  button.position(400,0);
-  button.size(100,30);
-  button.elt.setAttribute("id", "parachute");
-  button.mousePressed(parachute);
-
+  button.mousePressed(motor_mount);
 
   triangle_model = loadModel('assets/306090.obj');
   font = loadFont('assets/Avenir.otf');
@@ -63,30 +57,41 @@ function draw() {
   if(body.isActive){
     body.makeGUI();
   }
+  if(fin.isActive){
+    fin.makeGUI();
+  }
+  if(motor.isActive){
+    motor.makeGUI();
+  }
 }
 
 function nose_cone(){
   nose.activate();
   body.deactivate();
+  fin.deactivate();
+  motor.deactivate();
 }
 
 function body_tube(){
   body.activate();
   nose.deactivate();
+  fin.deactivate();
+  motor.deactivate();
 }
 
 function fins(){
-  console.log('hi');
+  fin.activate();
+  nose.deactivate();
+  body.deactivate();
+  motor.deactivate();
 }
 
-function motor(){
-  console.log('hi');
+function motor_mount(){
+  motor.activate();
+  nose.deactivate();
+  body.deactivate();
+  fin.deactivate();
 }
-
-function parachute(){
-  console.log('hi');
-}
-
 
 displayRocket = function(){
   let rotateMouse = map(mouseX,0,width,-2*PI,2*PI);
@@ -106,11 +111,7 @@ displayRocket = function(){
   nose.draw();
   translate(0,-160);
   body.draw();
-  push();
-  translate(0,-120,0);
-  fill(0,0,0);
-  cylinder(20,50);
-  pop();
+  motor.draw();
   fill(255,0,255);
   translate(0,-125);
   rotateZ(PI/2);
