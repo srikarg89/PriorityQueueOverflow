@@ -29,6 +29,7 @@ class BodyTube{
     this.inpH.remove();
     this.inpR.remove();
     this.isActive = false;
+    console.log("HELLLO");
   }
 
   setRadius(radius){
@@ -67,6 +68,7 @@ class BodyTube{
   draw(){
     if(!this.toDraw)
       return;
+
     push();
     fill(0,0,255);
     translate(0,-(body_height-250));
