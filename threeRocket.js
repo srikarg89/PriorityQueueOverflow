@@ -3,13 +3,14 @@
 var scene = new THREE.Scene();
 scene.background = new THREE.Color( 0x888888 ); //Light gray
 
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+//var camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 1000 );
+var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
 var controls = new THREE.OrbitControls( camera );
 //controls.autoRotate = true;
 controls.target = new THREE.Vector3(1, 1, 1);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.enableZoom = true;
+//controls.enableDamping = true;
+//controls.dampingFactor = 0.25;
+//controls.enableZoom = false;
 //Creates renderer and adds it to the DOM
 
 var renderer = new THREE.WebGLRenderer();
@@ -28,6 +29,32 @@ backLight.position.set(100, 0, -100).normalize();
 scene.add(keyLight);
 scene.add(fillLight);
 scene.add(backLight);
+
+/*
+var factor = 10;
+
+$('body').on('mousewheel', function (event){
+
+	var mX = ( event.clientX / window.innerWidth ) * 2 - 1;
+	var mY = - ( event.clientY / window.innerHeight ) * 2 + 1;
+	if(e.originalEvent.deltaY < 0){
+		var mX = ( event.clientX / window.innerWidth ) * 2 - 1;
+		var mY = - ( event.clientY / window.innerHeight ) * 2 + 1;
+		var vector = new THREE.Vector3(mX, mY, 1 );
+		vector.unproject(camera);
+		vector.sub(camera.position);
+		camera.position.addVectors(camera.position,vector.setLength(factor));
+		controls.target.addVectors(controls.target,vector.setLength(factor));
+	}
+	else{
+		var vector = new THREE.Vector3(-mX, -mY, 1 );
+		vector.unproject(camera);
+		vector.add(camera.position);
+		camera.position.addVectors(camera.position,vector.setLength(factor));
+		controls.target.addVectors(controls.target,vector.setLength(factor));
+	}
+});
+*/
 
 //The Cylinder!
 
@@ -73,18 +100,20 @@ var loader = new THREE.OBJLoader();
 
 var objLoader = new THREE.OBJLoader();
 objLoader.setPath('/assets/');
-objLoader.load('Ellipsoid.obj', function (object) {
+objLoader.load('Ogive.obj', function (object) {
 
-object.scale.set(20,20,20);
-object.position.y -= 60;
+object.position.y = 1;
+object.position.x = 2;
+object.position.z = 1;
+object.rotation.y = Math.PI/2;
+object.rotation.z = -Math.PI/2;
+object.scale.set(.001,.001,.001);
 scene.add(object);
-
-//    });
 
 });
 
 
-camera.position.z = 30;
+//camera.position.z = 30;
 
 //Rendering
 
