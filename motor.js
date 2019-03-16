@@ -5,8 +5,13 @@ class Motor{
     this.dropdown = createSelect(); // or create dropdown?
     this.dropdown.option('F39-9', 1);
     this.dropdown.option('C6-9', 2);
-    this.dropdown.changed(function(e){ motor_type = this.value(); });
-    motor_type = 0;
+    this.diameter_SCALE = 10;
+    this.HEIGHT_SCALE = 10;
+    this.diameters = [5,3];
+    this.heights = [5,5];
+    this.diameter = this.diameters[0];
+    this.height = this.heights[0];
+    this.type = 1;
     this.toDraw = true;
     this.font = loadFont('assets/Avenir.otf');
     this.SPECS = [[39,1.33,50],[6,1.9,14]]
@@ -28,16 +33,16 @@ class Motor{
     this.isActive = false;
   }
 
-  setRadius(radius){
-    body_radius = radius;
+  setdiameter(diameter){
+    body_diameter = diameter;
   }
 
-  setHeight(height){
-    body_height = height;
+  setHeight(h){
+    body_height = h;
   }
 
-  getRadius(){
-    return body_radius;
+  getdiameter(){
+    return body_diameter;
   }
 
   getHeight(){
@@ -56,23 +61,17 @@ class Motor{
     text('Choosing a motor',-windowWidth/2 + 150,-windowHeight/2 + 30, 500,100);
   }
 
-  draw(){
+  draw(body_height){
     if(!this.toDraw)
       return;
 
-    let length = 50;
-    let radius = -1;
-    if(motor_type == 0){
-      radius = 25;
-    }
-    else{
-      radius = 15;
-    }
-
+    this.type = parseInt(this.dropdown.elt.value);
+    this.diameter = this.diameters[this.type-1];
+    this.height = this.heights[this.type-1];
     push();
-    translate(0,-120,0);
+    translate(0,-body_height);
     fill(0,0,0);
-    cylinder(radius,length);
+    cylinder(this.diameter*this.diameter_SCALE/2, this.height*this.HEIGHT_SCALE);
     pop();
 
   }
