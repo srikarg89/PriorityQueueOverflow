@@ -1,20 +1,33 @@
 class BodyTube{
 
-  constructor(r = 3, h = 25){
-    this.radius = r;
+  constructor(d = 24.9, h = 25){
+    this.diameter = d;
     this.height = h;
-    this.RADIUS_SCALE = 10;
+    this.d_unit = 1;
+    this.h_unit = 1;
+    this.DIAMETER_SCALE = 10;
     this.HEIGHT_SCALE = 10;
     this.toDraw = true;
-    this.inputH = createInput(''+this.height);
-    this.inputR = createInput(''+this.radius);
+    this.createElements();
     this.font = loadFont('assets/Avenir.otf');
+  }
+
+  createElements(){
+    this.inputH = createInput(''+this.height);
+    this.inputR = createInput(''+this.diameter);
+    this.unitH = createSelect();
+    this.unitH.option('cm', 1);
+    this.unitH.option('mm', .1);
+    this.unitH.option('in', 2.5);
+    this.unitD = createSelect();
+    this.unitD.option('cm', 1);
+    this.unitD.option('mm', .1);
+    this.unitD.option('in', 2.5);
   }
 
   activate(){
     if(!this.isActive){
-      this.inputH = createInput(''+this.height);
-      this.inputR = createInput(''+this.radius);
+      this.createElements();
       this.makeGUI();
       this.isActive = true;
     }
@@ -23,40 +36,28 @@ class BodyTube{
   deactivate(){
     this.inputH.remove();
     this.inputR.remove();
+    this.unitH.remove();
+    this.unitD.remove();
     this.isActive = false;
     console.log("HELLLO");
-  }
-
-  setRadius(radius){
-    body_radius = radius;
-  }
-
-  setHeight(height){
-    body_height = height;
-  }
-
-  getRadius(){
-    return body_radius;
-  }
-
-  getHeight(){
-    return body_height;
   }
 
   makeGUI(){
     this.inputH.position(180,100);
     this.inputH.size(70,20);
-    this.inputR.position(180,200);
+    this.inputR.position(180,180);
     this.inputR.size(70,20);
+    this.unitH.position(260,100);
+    this.unitH.size(55,20);
+    this.unitD.position(260,180);
+    this.unitD.size(55,20);
 
     textFont(this.font);
     fill(0,0,0);
     textSize(15);
 
     text('Height: ', -windowWidth/2 + 120, -windowHeight/2 + 88, 200, 100);
-    text('Radius: ', -windowWidth/2 + 120, -windowHeight/2 + 188, 200, 100);
-    text('cm', -windowWidth/2 + 260, -windowHeight/2 + 88, 80, 50);
-    text('cm', -windowWidth/2 + 260, -windowHeight/2 + 190, 80, 50);
+    text('Diameter: ', -windowWidth/2 + 110, -windowHeight/2 + 168, 200, 100);
 
     textSize(20);
     text('Body Tube Variables and Parameters',-windowWidth/2 + 90,-windowHeight/2 + 30, 500,100);
@@ -66,16 +67,18 @@ class BodyTube{
     if(!this.toDraw)
       return;
 
-    if(!isNaN(this.inputH.elt.value) && this.inputH.elt.value >= 0){
+    this.h_unit = this.unitH.elt.value;
+    this.d_unit = this.unitD.elt.value;
+    if(!isNaN(this.inputH.elt.value)){
       this.height = this.inputH.elt.value;
     }
-    if(!isNaN(this.inputR.elt.value)  && this.inputR.elt.value >= 2){
-      this.radius = this.inputR.elt.value;
+    if(!isNaN(this.inputR.elt.value)){
+      this.diameter = this.inputR.elt.value;
     }
     push();
     fill(0,0,255);
-    translate(0,-this.HEIGHT_SCALE*this.height/2);
-    cylinder(this.radius * this.RADIUS_SCALE, this.height * this.HEIGHT_SCALE);
+    translate(0,-this.HEIGHT_SCALE*this.h_unit*this.height/2);
+    cylinder(this.d_unit * this.diameter * this.DIAMETER_SCALE / 2, this.h_unit * this.height * this.HEIGHT_SCALE);
     pop();
 
   }

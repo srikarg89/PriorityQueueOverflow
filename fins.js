@@ -1,110 +1,96 @@
 class Fins{
 
-  constructor(bas = 7, typ = 1, num = 3){
-    this.TRAP_BASE_SCALE = 4;
-    this.TRAP_HEIGHT_SCALE = 4;
+  constructor(b, h, typ = 1, num = 3){
+    this.TRAP_BASE_SCALE = 3;
+    this.TRAP_HEIGHT_SCALE = 6;
     this.TRAP_MODEL = loadModel('assets/RightTrap.obj');
-    this.ISORIGHT_BASE_SCALE = 25;
-    this.ISORIGHT_MODEL = loadModel('assets/454590.obj');
-    this.NONISORIGHT_BASE_SCALE = 4;
-    this.NONISORIGHT_MODEL = loadModel('assets/306090.obj');
-    this.THICKNESS_SCALE = 12;
+    this.TRIANGLE_BASE_SCALE = 15;
+    this.TRIANGLE_HEIGHT_SCALE = 15;
+    this.TRIANGLE_MODEL = loadModel('assets/454590.obj');
+    this.THICKNESS_SCALE = 100;
 
-    this.base = bas;
-    this.thickness = 5;
-    this.height = 5;
+    this.base = b;
+    this.thickness = .5;
+    this.height = h;
     this.type = typ;
     this.num = num;
     this.toDraw = true;
-    this.dropdown = createSelect(); // or create dropdown?
-    this.dropdown.option('Trapezoidal', 1);
-    this.dropdown.option('45-45-90 Triangles', 2);
-    this.dropdown.option('30-60-90 Triangles', 3);
-    this.dropdown.changed(function(e){ type = this.value();
-      if(type == 1){
-        this.input = createInput('');
-        this.inputH.position(270,200);
-        this.inputH.size(70,20);
-        console.log('hi');
-      }
-      else{
-        if(this.inputH)
-          this.inputH.remove();
-      }
-    });
-    this.inputB = createInput(''+this.base);
+    this.createElements();
+
     this.font = loadFont('assets/Avenir.otf');
 
   }
 
-  activate(){
-    if(type == 1){
-      this.inputH = createInput('');
-      this.inputH.position(270,172);
-      this.inputH.size(70,20);
-    }
-    this.dropdown = createSelect(); // or create dropdown?
+  createElements(){
+    this.dropdown = createSelect();
     this.dropdown.option('Trapezoidal', 1);
-    this.dropdown.option('45-45-90 Triangles', 2);
-    this.dropdown.option('30-60-90 Triangles', 3);
-    this.dropdown.changed(function(e){ type = this.value();
-      console.log(this);
-      if(type == 1){
-        this.inputH = createInput('');
-        this.inputH.position(270,160);
-        this.inputH.size(70,20);
-        console.log("HI");
-      }
-      else{
-        if(this.inputH)
-          this.inputH.remove();
-          console.log("BYE");
-      }
-    });
-    this.inputB = createInput('');
+    this.dropdown.option('Triangular', 2);
+    this.inputB = createInput(''+this.base);
+    this.inputH = createInput(''+this.height);
+    this.inputN = createInput(''+this.num);
+    this.unitH = createSelect();
+    this.unitH.option('cm', 1);
+    this.unitH.option('mm', .1);
+    this.unitH.option('in', 2.5);
+    this.unitB = createSelect();
+    this.unitB.option('cm', 1);
+    this.unitB.option('mm', .1);
+    this.unitB.option('in', 2.5);
+  }
+
+  activate(){
+    this.createElements();
     this.makeGUI();
     this.isActive = true;
   }
 
   deactivate(){
     this.inputB.remove();
-    if(this.inputH)
-      this.inputH.remove();
+    this.inputH.remove();
+    this.inputN.remove();
     this.dropdown.remove();
+    this.unitH.remove();
+    this.unitB.remove();
     this.isActive = false;
   }
 
   makeGUI(){
     this.dropdown.position(50,100);
-    this.inputB.position(270,100);
+    this.inputH.position(230,100);
+    this.inputH.size(70,20);
+    this.inputB.position(230,180);
     this.inputB.size(70,20);
+    this.inputN.position(230,260);
+    this.inputN.size(70,20);
+    this.unitH.position(320,100);
+    this.unitB.position(320,180);
 
     textFont(this.font);
     fill(0,0,0);
     textSize(15);
 
-    text('this.base: ', -windowWidth/2 + 220, -windowHeight/2 + 89, 200, 100);
-    text('cm', -windowWidth/2 + 350, -windowHeight/2 + 88, 80, 50);
-    if(type == 1){
-      text('Height: ', -windowWidth/2 + 210, -windowHeight/2 + 160, 200, 100);
-      text('cm', -windowWidth/2 + 350, -windowHeight/2 + 159, 80, 50);
+    text('Height: ', -windowWidth/2 + 170, -windowHeight/2 + 88, 200, 100);
+    text('Base: ', -windowWidth/2 + 180, -windowHeight/2 + 168, 200, 100);
+    text('Number: ', -windowWidth/2 + 170, -windowHeight/2 + 248, 200, 100);
 
-    }
     textSize(20);
-    text('Fin Variables and Parameters',-windowWidth/2 + 90,-windowHeight/2 + 30, 500,100);
+    text('Fins Variables and Parameters',-windowWidth/2 + 90,-windowHeight/2 + 30, 500,100);
   }
 
-  draw(body_height, body_radius){
+  draw(body_height, body_diameter){
     if(!this.toDraw)
       return;
-    this.type = parseInt(this.dropdown.elt.value)
-    if(this.inputH){
-      if(!isNaN(this.inputH.elt.value) && this.inputH.elt.value >= 0){
-        this.height = this.inputH.elt.value;
-      }
+    this.h_unit = this.unitH.elt.value;
+    this.b_unit = this.unitB.elt.value;
+    this.type = this.dropdown.elt.value;
+    if(!isNaN(this.inputH.elt.value)){
+      this.height = this.inputH.elt.value;
     }
-    if(!isNaN(this.inputB.elt.value)  && this.inputB.elt.value >= 2){
+    if(!isNaN(this.inputB.elt.value)){
       this.base = this.inputB.elt.value;
+    }
+    if(!isNaN(this.inputN.elt.value)  && this.inputN.elt.value >= 2 && this.inputN.elt.value <= 5){
+      this.num = this.inputN.elt.value;
     }
     let angle = 2*PI/this.num;
     fill(0,255,0);
@@ -115,35 +101,27 @@ class Fins{
       for(let i = 0; i < this.num; i++){
         push();
         rotateX(angle*i);
-        translate(0,0,-body_radius);
-        scale(this.TRAP_HEIGHT_SCALE*this.height,this.THICKNESS_SCALE*this.thickness,this.TRAP_BASE_SCALE*this.base);
+        translate(0,0,-body_diameter/2);
+        scale(this.TRAP_BASE_SCALE*this.base*this.b_unit,this.THICKNESS_SCALE*this.thickness,this.TRAP_HEIGHT_SCALE*this.height*this.h_unit);
         model(this.TRAP_MODEL);
         pop();
       }
       pop();
     }
-    else if(type == 2){
-      push();
-      rotateX(angle);
-      translate(0,0,-40);
-      fill(0,255,0);
-      scale(this.ISORIGHT_BASE_SCALE*this.base,this.ISOTHICKNESS_SCALE*this.thickness,this.ISORIGHT_BASE_SCALE*this.base);
-      model(this.ISORIGHT_MODEL);
-      pop();
-    }
     else{
       push();
-      rotateX(angle);
-      translate(0,0,-40);
-      fill(0,255,0);
-      console.log('hi');
-      console.log(this.NONISORIGHT_BASE_SCALE*this.base);
-      scale(this.NONISORIGHT_BASE_SCALE*this.base,this.NONISOTHICKNESS_SCALE*this.thickness,this.NONISORIGHT_BASE_SCALE*this.base);
-      model(this.NONISORIGHT_MODEL);
+      rotateX(PI/2);
+      translate(0,0,body_height);
+      for(let i = 0; i < this.num; i++){
+        push();
+        rotateZ(angle*i);
+        translate(body_diameter/2,0,0);
+        scale(this.TRIANGLE_HEIGHT_SCALE*this.height*this.h_unit,this.THICKNESS_SCALE*this.thickness,this.TRIANGLE_BASE_SCALE*this.base*this.b_unit);
+        model(this.TRIANGLE_MODEL);
+        pop();
+      }
       pop();
     }
-
-
   }
 
 

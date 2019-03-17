@@ -19,9 +19,9 @@ var alti, fallv, tim;
 
 function setup() {
   createCanvas(1280,600,WEBGL);
-  nose = new NoseCone(3,10,2);
-  body = new BodyTube(3,25);
-  fins = new Fins(5,1,3);
+  nose = new NoseCone(6,10);
+  body = new BodyTube(6,25);
+  fins = new Fins(5,3,1,3);
   motor = new Motor();
   user_mass_inp = createInput('');
   user_mass_inp.input(function(e){ if(!isNaN(this.value())){if(this.value() > 40 && this.value() <= 4000){user_mass = this.value();}} else{alert('Must be an integer!');} });
@@ -40,7 +40,7 @@ function setup() {
   button2.mousePressed(body_activate);
 
   //fins
-  button3 = createButton('fins');
+  button3 = createButton('Fins');
   button3.position(200,0);
   button3.size(100,30);
   button3.elt.setAttribute("id", "fins_GUI");
@@ -110,32 +110,12 @@ function submit(){
 
 function draw(){
   background(100);
-  /*
-  push();
-  let rotateMouse = map(mouseX,0,width,-2*PI,2*PI);
-  let rotateMouse1 = map(mouseY,0,height,-2*PI,2*PI);
-  rotateX(rotateMouse1);
-  rotateY(rotateMouse);
-  rotateZ(PI/2);
-  push();
-  translate(0,100,0);
-  box(100,20,20);
-  pop();
-  push();
-  rotateX(PI/2);
-  translate(0,100,0);
-  fill(255,0,0);
-  box(100,20,20);
-  pop();
-  pop();
-  */
   if(onCad){
     first_draw();
   }
   else{
     second_draw();
   }
-  
 }
 
 function first_draw() {
@@ -208,6 +188,7 @@ displayRocket = function(bool){
   let rotateMouse1 = map(mouseY,0,height,-2*PI,2*PI);
 
 //  strokeWeight(5);
+  nose.diameter = body.diameter;
   push();
   translate(300,0);
   if(bool){
@@ -217,12 +198,12 @@ displayRocket = function(bool){
   translate(0,-100);
   rotateX(PI);
   fill(255,0,0);
-  nose.draw(createVector(0,0));
+  nose.draw();
   translate(0,0);
   body.draw();
-  motor.draw(body.height*body.HEIGHT_SCALE);
+  motor.draw(body.height*body.HEIGHT_SCALE*body.h_unit);
   fill(255,0,255);
-  fins.draw(body.height*body.HEIGHT_SCALE, body.radius*body.RADIUS_SCALE);
+  fins.draw(body.height*body.HEIGHT_SCALE*body.h_unit, body.diameter*body.DIAMETER_SCALE*body.d_unit);
   pop();
   fill(200,200,200);
   rect(-width/2,-height/2 - 20,width*2/5 - 12,height+20);

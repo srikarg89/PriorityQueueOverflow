@@ -33,22 +33,6 @@ class Motor{
     this.isActive = false;
   }
 
-  setdiameter(diameter){
-    body_diameter = diameter;
-  }
-
-  setHeight(h){
-    body_height = h;
-  }
-
-  getdiameter(){
-    return body_diameter;
-  }
-
-  getHeight(){
-    return body_height;
-  }
-
   makeGUI(){
     this.dropdown.position(250,100);
 
@@ -70,6 +54,7 @@ class Motor{
     this.height = this.heights[this.type-1];
     push();
     translate(0,-body_height);
+    console.log(body_height);
     fill(0,0,0);
     cylinder(this.diameter*this.diameter_SCALE/2, this.height*this.HEIGHT_SCALE);
     pop();
