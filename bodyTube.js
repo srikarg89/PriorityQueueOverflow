@@ -1,6 +1,6 @@
 class BodyTube{
 
-  constructor(d = 24.9, h = 25){
+  constructor(d = 6, h = 25){
     this.diameter = d;
     this.height = h;
     this.d_unit = 1;
@@ -14,7 +14,7 @@ class BodyTube{
 
   createElements(){
     this.inputH = createInput(''+this.height);
-    this.inputR = createInput(''+this.diameter);
+    this.inputD = createInput(''+this.diameter);
     this.unitH = createSelect();
     this.unitH.option('cm', 1);
     this.unitH.option('mm', .1);
@@ -27,26 +27,28 @@ class BodyTube{
 
   activate(){
     if(!this.isActive){
-      this.createElements();
+      this.inputH.elt.hidden = false;
+      this.inputD.elt.hidden = false;
+      this.unitH.elt.hidden = false;
+      this.unitD.elt.hidden = false;
       this.makeGUI();
       this.isActive = true;
     }
   }
 
   deactivate(){
-    this.inputH.remove();
-    this.inputR.remove();
-    this.unitH.remove();
-    this.unitD.remove();
+    this.inputH.elt.hidden = true;
+    this.inputD.elt.hidden = true;
+    this.unitH.elt.hidden = true;
+    this.unitD.elt.hidden = true;
     this.isActive = false;
-    console.log("HELLLO");
   }
 
   makeGUI(){
     this.inputH.position(180,100);
     this.inputH.size(70,20);
-    this.inputR.position(180,180);
-    this.inputR.size(70,20);
+    this.inputD.position(180,180);
+    this.inputD.size(70,20);
     this.unitH.position(260,100);
     this.unitH.size(55,20);
     this.unitD.position(260,180);
@@ -72,8 +74,8 @@ class BodyTube{
     if(!isNaN(this.inputH.elt.value)){
       this.height = this.inputH.elt.value;
     }
-    if(!isNaN(this.inputR.elt.value)){
-      this.diameter = this.inputR.elt.value;
+    if(!isNaN(this.inputD.elt.value)){
+      this.diameter = this.inputD.elt.value;
     }
     push();
     fill(0,0,255);

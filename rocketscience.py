@@ -3,11 +3,13 @@ import json
 
 dt = 0.001
 
-#Constants: rho = air density, 
+#Constants: rho = air density,
 rho = 1.2
 g = 9.81
 json_file = open('C:/Users/Srikar/Documents/PriorityQueueOverflow/MOTOR_DATA.json')
 MOTOR_MODELS = json.load(json_file)
+for motor in MOTOR_MODELS:
+    print(motor)
 motor = MOTOR_MODELS['Estes_C6']
 mpoints = motor['points']
 
@@ -111,3 +113,4 @@ print("Apogee",apogee)
 print("Max velocity",maxVel)
 index = altitudes.index(apogee)
 print("Time to apogee",times[index])
+

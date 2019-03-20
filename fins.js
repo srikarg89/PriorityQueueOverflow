@@ -18,7 +18,6 @@ class Fins{
     this.createElements();
 
     this.font = loadFont('assets/Avenir.otf');
-
   }
 
   createElements(){
@@ -39,18 +38,23 @@ class Fins{
   }
 
   activate(){
-    this.createElements();
+    this.dropdown.elt.hidden = false;
+    this.unitH.elt.hidden = false;
+    this.unitB.elt.hidden = false;
+    this.inputH.elt.hidden = false;
+    this.inputB.elt.hidden = false;
+    this.inputN.elt.hidden = false;
     this.makeGUI();
     this.isActive = true;
   }
 
   deactivate(){
-    this.inputB.remove();
-    this.inputH.remove();
-    this.inputN.remove();
-    this.dropdown.remove();
-    this.unitH.remove();
-    this.unitB.remove();
+    this.dropdown.elt.hidden = true;
+    this.unitH.elt.hidden = true;
+    this.unitB.elt.hidden = true;
+    this.inputH.elt.hidden = true;
+    this.inputB.elt.hidden = true;
+    this.inputN.elt.hidden = true;
     this.isActive = false;
   }
 

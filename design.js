@@ -1,22 +1,16 @@
 let size = 30;
 let button;
-let button_1;
 let noseConeShow = true;
-var nose;
-var body;
-var fins;
+var nose, body, fins, motor;
 var font;
-var motor;
-var triangle_model;
 var onCad = true;
 var user_mass = 0;
 var user_mass_inp;
 var isOnMass = false;
 var cond = false;
-var s = 0;
-var mass, a, thrus, t, cd, d, t_high;
-var alti, fallv, tim;
-
+var rocket_data = [];
+var index = 0;
+var apogee,maxVel;
 function setup() {
   createCanvas(1280,600,WEBGL);
   nose = new NoseCone(6,10);
@@ -72,7 +66,7 @@ function mass_tab(){
   isOnMass = true;
   user_mass_inp = createInput('');
   user_mass_inp.input(function(e){ if(!isNaN(this.value())){if(this.value() > 40 && this.value() <= 4000){user_mass = this.value();}} else{alert('Must be an integer!');} });;
-  user_mass_inp.position(250,100);
+  user_mass_inp.position(245,122);
   user_mass_inp.size(60,20);
   fins.deactivate();
   nose.deactivate();
@@ -81,15 +75,15 @@ function mass_tab(){
   textFont(font);
   fill(0,0,0);
   textSize(15);
-  text('Enter mass: ', -width/2 + 160, -height/2 + 88, 200, 100);
-  text('g', -width/2 + 315, -height/2 + 90, 80, 50);
+  text('Enter mass: ', -width/2 + 160, -height/2 +120, 200, 100);
+  text('g', -width/2 + 315, -height/2 + 120, 80, 50);
   textSize(20);
-  text('Mass of completed rocket',-width/2 + 90,-height/2 + 30, 500,100);
+  text('Mass of completed rocket',-width/2 + 150,-height/2 + 50, 500,100);
 }
 
 function submit(){
   console.log(user_mass);
-  if(user_mass <= 40 || user_mass >= 4000){
+  if(user_mass < 40 || user_mass > 4000){
     alert('Invalid mass. Must be in the range of 40 grams to 4,000 grams.');
     return;
   }
@@ -106,6 +100,9 @@ function submit(){
   button5.remove();
   submit_button.remove();
   cond = true;
+  rocket_data = getCalcs(motor.dropdown.elt.value, user_mass/1000, body.diameter*body.unitD.elt.value/200);
+  apogee = 0;
+  maxVel = 0;
 }
 
 function draw(){
@@ -137,12 +134,10 @@ function first_draw() {
     textFont(font);
     fill(0,0,0);
     textSize(15);
-
-    text('Enter mass: ', -width/2 + 170, -height/2 + 88, 200, 100);
-    text('g', -width/2 + 315, -height/2 + 90, 80, 50);
-
+    text('Enter mass: ', -width/2 + 160, -height/2 +120, 200, 100);
+    text('g', -width/2 + 315, -height/2 + 120, 80, 50);
     textSize(20);
-    text('Mass of completed rocket',-width/2 + 150,-height/2 + 30, 500,100);
+    text('Mass of completed rocket',-width/2 + 150,-height/2 + 50, 500,100);
   }
 
 }
@@ -208,7 +203,7 @@ displayRocket = function(bool){
   fill(200,200,200);
   rect(-width/2,-height/2 - 20,width*2/5 - 12,height+20);
 }
-
+/*
 function altitude(mass, a, thrust, t, cd){
   k = 0.5*1.2*cd*a;
   g = 9.80665;
@@ -234,40 +229,37 @@ function fall_v1(mass, d){
 
     return Math.pow(((8*mass*9.80665)/(pi*r*cd*Math.pow(d,2))),0.5);
 }
-
+*/
 stationaryRocket = function(){
-
-  //Point being rotated at: 0, -180
-  //Starting point: 0,20
-  //Ending point: 0,-380
-  noStroke();
-  push();
-  translate(0,-40);
-  translate(0,-100);
-  rotateX(PI);
-  nose.draw();
-  translate(0,-160);
-  body.draw();
-  motor.draw();
-  fill(255,0,255);
-  translate(0,-125);
-  rotateZ(PI/2);
-  fins.draw(PI/3);
-  fins.draw(-PI/3);
-  fins.draw(PI);
-  pop();
+  displayRocket(false);
 }
 
 function second_draw() {
   background(100);
   stationaryRocket();
   textFont(font);
-  fill(255,255,255);
+  fill(0,0,0);
   textSize(20);
   text('Time: ',-460,-285,20,20);
-  text('Apogee: ',-460,-240,20,20);
+  text('Altitude: ',-460,-240,20,20);
   text('Velocity: ',-460,-195,20,20);
+  text('Apogee: ',-460,-150,20,20);
+  text('Max Velocity: ',-460,-105,20,20);
 
+  [times,altitudes,velocities] = rocket_data;
+  let time = times[index];
+  let altitude = altitudes[index];
+  let velocity = velocities[index];
+  maxVel = Math.max(maxVel,velocity);
+  apogee = Math.max(apogee,altitude);
+  text(parseInt(time*1000), -385,-285,20,20);
+  text(str(altitude) + ' m', -350,-240,20,20);
+  text(str(velocity) + " m/s", -350,-195,20,20);
+  text(str(apogee) + ' m', -350,-150,20,20);
+  text(str(maxVel) + " m/s", -350,-105,20,20);
+  if(index < times.length - 1)
+    index += 1
+/*
   if(cond){
     text(parseInt(s*1000), -385,-285,20,20);
     avg = motor.SPECS[motor_type][0];
@@ -321,4 +313,5 @@ function second_draw() {
     s+=0.005;
     console.log(alti);
   }
+  */
 }

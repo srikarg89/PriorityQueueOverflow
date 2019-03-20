@@ -28,11 +28,8 @@ class NoseCone{
 
   activate(){
     if(!this.isActive){
-      this.dropdown = createSelect(); // or create dropdown?
-      this.dropdown.option('Conical', 1);
-      this.dropdown.option('Elliptical', 2);
-      this.dropdown.option('Ogive', 3);
-      this.inputH = createInput(''+this.height);
+      this.dropdown.elt.hidden = false;
+      this.inputH.elt.hidden = false;
 //      this.inputR = createInput('');
       this.makeGUI();
       this.isActive = true;
@@ -40,10 +37,9 @@ class NoseCone{
   }
 
   deactivate(){
-    this.inputH.remove();
+    this.inputH.elt.hidden = true;
 //    this.inputR.remove();
-    console.log('hi');
-    this.dropdown.remove();
+    this.dropdown.elt.hidden = true;
     this.isActive = false;
   }
 
