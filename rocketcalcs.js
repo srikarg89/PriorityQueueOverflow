@@ -34,9 +34,8 @@ console.log('----------')
 function getCalcs(motor_name,mass,radius,rocket_drag = 0.75, parachute_radius = 0.125, parachute_drag = 1.75){ //Units: Mass - kg, Radius - meter
   let motor = MOTOR_MODELS[motor_name]
   let mpoints = motor['points'];
-  let M1 = mass/1000 + motor['tweight'] - motor['pweight'];
   let M2 = motor['pweight'];
-  let M = M1+M2;
+  let M = mass + motor['tweight'];
   let A = Math.pow(radius,2)*Math.PI;
   let Ap = Math.pow(parachute_radius,2)*Math.PI;
   let Cd = rocket_drag;
@@ -99,6 +98,7 @@ function getCalcs(motor_name,mass,radius,rocket_drag = 0.75, parachute_radius = 
       if (velocity > 0){
           D *= -1;
       }
+      console.log(acceleration);
       acceleration = (D - (M*g))/M;
       velocity += acceleration * dt;
       altitude += velocity * dt;

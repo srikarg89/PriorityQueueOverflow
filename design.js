@@ -252,13 +252,13 @@ function second_draw() {
   let velocity = velocities[index];
   maxVel = Math.max(maxVel,velocity);
   apogee = Math.max(apogee,altitude);
-  text(parseInt(time*1000), -385,-285,20,20);
+  text(parseInt(time*1000), -350,-285,20,20);
   text(str(altitude) + ' m', -350,-240,20,20);
   text(str(velocity) + " m/s", -350,-195,20,20);
   text(str(apogee) + ' m', -350,-150,20,20);
   text(str(maxVel) + " m/s", -350,-105,20,20);
-  if(index < times.length - 1)
-    index += 1
+  if(index < times.length - 10)
+    index += 10
 /*
   if(cond){
     text(parseInt(s*1000), -385,-285,20,20);

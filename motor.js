@@ -6,12 +6,19 @@ class Motor{
     this.DIAMETER_SCALE = 1.5;
     this.HEIGHT_SCALE = .75;
 
-    this.type = 1;
     this.curr = MOTORDATA[this.dropdown.elt.value];
     this.diameter = this.curr["diameter"];
     this.height = this.curr["length"];
     this.toDraw = true;
     this.font = loadFont('assets/Avenir.otf');
+    this.makeDelayDropdown();
+  }
+
+  makeDelayDropdown(){
+    this.delay_dropdown = createSelect();
+    for(let x = 0; x < this.curr["delay"].length; x++){
+      this.delay_dropdown.option(this.curr["delay"][x] + " seconds",this.curr["delay"][x]);
+    }
   }
 
   makeDropdown(){
@@ -55,30 +62,34 @@ class Motor{
       this.dropdown.elt.hidden = false;
       this.makeGUI();
       this.isActive = true;
+      this.delay_dropdown.elt.hidden = false;
     }
   }
 
   deactivate(){
     this.dropdown.elt.hidden = true;
+    this.delay_dropdown.elt.hidden = true;
     this.isActive = false;
   }
 
   makeGUI(){
     this.dropdown.position(250,100);
+    this.delay_dropdown.position(250,200);
 
     textFont(this.font);
     fill(0,0,0);
     textSize(15);
-    text('Motor options:',-width/2 + 110,-height/2 + 88, 500,100);
+    text('Motor options:',-width/2 + 125,-height/2 + 98, 500,100);
+    text('Delay options:',-width/2 + 125,-height/2 + 199, 500,100);
 
     textSize(20);
-    text('Choosing a motor',-width/2 + 150,-height/2 + 30, 500,100);
+    text('Choosing a motor',-width/2 + 200,-height/2 + 30, 500,100);
   }
 
   checkDisabled(){
     for(let i = 0; i < this.dropdown.width; i++){
       let opt = this.dropdown.elt[i];
-      if(MOTORDATA[opt.value]["diameter"] * this.DIAMETER_SCALE > body.diameter*body.DIAMETER_SCALE * 3/4){
+      if(this.diameter * this.DIAMETER_SCALE > body.diameter*body.DIAMETER_SCALE * 3/4){
         opt.disabled = true;
       }
       else{
@@ -91,8 +102,13 @@ class Motor{
     if(!this.toDraw)
       return;
 
+    let temp = MOTORDATA[this.dropdown.elt.value];
+    if(temp != this.curr){
+      this.curr = temp;
+      this.makeDelayDropdown();
+    }
+    this.curr = temp;
     this.checkDisabled();
-    this.curr = MOTORDATA[this.dropdown.elt.value];
 //    console.log(this.dropdown.elt.value);
 //    console.log(this.curr);
     this.diameter = this.curr["diameter"];
